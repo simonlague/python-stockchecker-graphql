@@ -1,3 +1,7 @@
+# Can't use Pipfile with Cloud Function at the moment, so do not commit it
+Pipfile
+Pipfile.lock
+
 ### Linux ###
 *~
 
