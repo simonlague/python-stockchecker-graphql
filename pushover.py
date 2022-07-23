@@ -1,9 +1,10 @@
 from chump import Application
-from config import get_api_key, get_user_key
+from config import Config
 
 def initialize():
-    app = Application(get_api_key())
-    user = app.get_user(get_user_key())
+    config = Config.get_instance()
+    app = Application(config.get_api_key())
+    user = app.get_user(config.get_user_key())
     return user
 
 def notify(utilisateur, message):
