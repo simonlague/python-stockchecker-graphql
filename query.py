@@ -1,75 +1,77 @@
 import requests
 
-url = "https://ecomm.svc.ui.com/graphql"
+class Query:
 
-query = """
-query GetRecentProducts($ids: [UUID!]!, $storeId: StoreId!, $language: LowercaseTrimmedString!, $displayCurrency: Currency!) {
-            storefrontProductsById(
-            ids: $ids
-            storeId: $storeId
-            language: $language
-            displayCurrency: $displayCurrency
-            ) {
-            ...ProductCardFragment
-            __typename
-            }
-        }
+    __url = "https://ecomm.svc.ui.com/graphql"
 
-        fragment ProductCardFragment on StorefrontProduct {
-            id
-            title
-            shortDescription
-            slug
-            tags {
-            id
-            name
-            __typename
+    __query = """
+    query GetRecentProducts($ids: [UUID!]!, $storeId: StoreId!, $language: LowercaseTrimmedString!, $displayCurrency: Currency!) {
+                storefrontProductsById(
+                ids: $ids
+                storeId: $storeId
+                language: $language
+                displayCurrency: $displayCurrency
+                ) {
+                ...ProductCardFragment
+                __typename
+                }
             }
-            thumbnail {
-            ...ThumbnailAssetFragment
-            __typename
-            }
-            variants {
-            id
-            isEarlyAccess
-            isVisibleInStore
-            sku
-            status
-            displayPrice {
-                amount
-                currency
+
+            fragment ProductCardFragment on StorefrontProduct {
+                id
+                title
+                shortDescription
+                slug
+                tags {
+                id
+                name
+                __typename
+                }
+                thumbnail {
+                ...ThumbnailAssetFragment
+                __typename
+                }
+                variants {
+                id
+                isEarlyAccess
+                isVisibleInStore
+                sku
+                status
+                displayPrice {
+                    amount
+                    currency
+                    __typename
+                }
+                __typename
+                }
                 __typename
             }
-            __typename
+
+            fragment ThumbnailAssetFragment on Asset {
+                id
+                url
+                height
+                width
+                mimeType
+                filename
+                __typename
             }
-            __typename
-        }
+    """
 
-        fragment ThumbnailAssetFragment on Asset {
-            id
-            url
-            height
-            width
-            mimeType
-            filename
-            __typename
-        }
-"""
+    __variables = """
+    {
+        "ids": [
+            "12f6ef8d-1787-4dd6-bd95-6f113965bda0"
+        ],
+        "storeId": "ca",
+        "language": "en",
+        "displayCurrency": "CAD"
+    }
+    """
 
-variables = """
-{
-    "ids": [
-        "12f6ef8d-1787-4dd6-bd95-6f113965bda0"
-    ],
-    "storeId": "ca",
-    "language": "en",
-    "displayCurrency": "CAD"
-}
-"""
-
-def run_query():
-    request = requests.post(url, json={'query': query, 'variables': variables})
-    if request.status_code == 200:
-        return request.json()
-    else:
-        raise Exception("Query failed to run by returning code of {}. {}".format(request.status_code, query))
+    def run_query(self):
+        request = requests.post(self.__url, json={'query': self.__query, 'variables': self.__variables})
+        if request.status_code == 200:
+            return request.json()
+        else:
+            raise Exception("Query failed to run by returning code of {}. {}".format(request.status_code, self.__query))

@@ -1,7 +1,7 @@
-from query import run_query
+from query import Query
 from notification import Notification
 
-result = run_query()
+result = Query().run_query()
 title = result["data"]["storefrontProductsById"][0]["title"]
 status = result["data"]["storefrontProductsById"][0]["variants"][0]["status"]
 
