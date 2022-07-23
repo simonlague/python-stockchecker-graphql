@@ -28,3 +28,6 @@ class Config:
 
     def get_user_key(self):
         return self.__config_object["API"]["user-key"]
+
+    def get_request_url(self):
+        return self.__config_object["REQUEST"]["url"]

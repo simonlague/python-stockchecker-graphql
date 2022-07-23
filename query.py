@@ -1,8 +1,7 @@
 import requests
+from config import Config
 
 class Query:
-
-    __url = "https://ecomm.svc.ui.com/graphql"
 
     __query = """
     query GetRecentProducts($ids: [UUID!]!, $storeId: StoreId!, $language: LowercaseTrimmedString!, $displayCurrency: Currency!) {
@@ -68,6 +67,9 @@ class Query:
         "displayCurrency": "CAD"
     }
     """
+
+    def __init__(self):
+        self.__url = Config.get_instance().get_request_url()
 
     def run_query(self):
         request = requests.post(self.__url, json={'query': self.__query, 'variables': self.__variables})
