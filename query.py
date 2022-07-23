@@ -1,5 +1,7 @@
 import requests
 
+url = "https://ecomm.svc.ui.com/graphql"
+
 query = """
 query GetRecentProducts($ids: [UUID!]!, $storeId: StoreId!, $language: LowercaseTrimmedString!, $displayCurrency: Currency!) {
             storefrontProductsById(
@@ -66,7 +68,7 @@ variables = """
 """
 
 def run_query():
-    request = requests.post('https://ecomm.svc.ui.com/graphql', json={'query': query, 'variables': variables})
+    request = requests.post(url, json={'query': query, 'variables': variables})
     if request.status_code == 200:
         return request.json()
     else:
